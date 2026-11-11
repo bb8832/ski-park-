@@ -35,22 +35,22 @@
     "requests": {
       ".read": "auth != null",
       "$r": {
-        ".write": "auth != null",
-        ".validate": "newData.hasChildren(['a','b','st']) && (newData.child('st').val() === 'pending' || newData.child('st').val() === 'friends')"
+        ".write": "auth != null && (data.exists() ? true : newData.child('o').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['a','b','st','o']) && (newData.child('st').val() === 'pending' || newData.child('st').val() === 'friends') && (!data.exists() || newData.child('o').val() === data.child('o').val())"
       }
     },
     "invites": {
       ".read": "auth != null",
       "$i": {
-        ".write": "auth != null",
-        ".validate": "newData.hasChildren(['to','from','code','st'])"
+        ".write": "auth != null && (data.exists() ? true : newData.child('o').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['to','from','code','st','o']) && (!data.exists() || newData.child('o').val() === data.child('o').val())"
       }
     },
     "crews": {
       ".read": "auth != null",
       "$c": {
-        ".write": "auth != null",
-        ".validate": "newData.hasChildren(['n','tag','col','m'])"
+        ".write": "auth != null && (!data.exists() ? newData.child('ou').val() === auth.uid : (!newData.exists() ? data.child('ou').val() === auth.uid || !data.child('m').exists() : true))",
+        ".validate": "newData.hasChildren(['n','tag','col','m','ou']) && (!data.exists() || newData.child('ou').val() === data.child('ou').val() || newData.child('o').exists())"
       }
     },
     "shared": {
