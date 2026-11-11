@@ -1,5 +1,5 @@
 // Ski Park service worker: same-origin files are network-first (so updates arrive), CDN libraries are cache-first.
-const CACHE = 'skipark-v3';
+const CACHE = 'skipark-v4';
 self.addEventListener('install', (e) => { self.skipWaiting(); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (e) => {
