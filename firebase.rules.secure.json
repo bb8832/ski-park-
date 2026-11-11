@@ -1,0 +1,79 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "presence": {
+      ".read": "auth != null",
+      "$p": {
+        ".write": "auth != null && (!data.exists() || data.child('u').val() === auth.uid) && (!newData.exists() || newData.child('u').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['u','t','p'])"
+      }
+    },
+    "accounts": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['k','n','salt','hash']) && newData.child('n').isString() && newData.child('n').val().length <= 14 && newData.child('hash').isString() && newData.child('hash').val().length <= 100"
+      }
+    },
+    "scores": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        "$f": {
+          ".validate": "($f == 'k' || $f == 'n' || $f == 'cr') ? (newData.isString() && newData.val().length <= 60) : (newData.isNumber() && ($f == 'ts' || $f == 'cp' || $f.beginsWith('cw_') || newData.val() <= 600000))"
+        }
+      }
+    },
+    "ratings": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.child('elo').isNumber() && newData.child('elo').val() >= 100 && newData.child('elo').val() <= 4000"
+      }
+    },
+    "requests": {
+      ".read": "auth != null",
+      "$r": {
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['a','b','st']) && (newData.child('st').val() === 'pending' || newData.child('st').val() === 'friends')"
+      }
+    },
+    "invites": {
+      ".read": "auth != null",
+      "$i": {
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['to','from','code','st'])"
+      }
+    },
+    "crews": {
+      ".read": "auth != null",
+      "$c": {
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['n','tag','col','m'])"
+      }
+    },
+    "shared": {
+      ".read": "auth != null",
+      "$s": {
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.hasChildren(['d','park','score']) && newData.child('d').isString() && newData.child('d').val().length < 240000"
+      }
+    },
+    "highlights": {
+      ".read": "auth != null",
+      "$h": {
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.hasChildren(['code','score','wk'])"
+      }
+    },
+    "data": {
+      "users": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    }
+  }
+}

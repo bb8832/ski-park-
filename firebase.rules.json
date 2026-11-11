@@ -1,0 +1,79 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "presence": {
+      ".read": true,
+      "$p": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['u','t','p'])"
+      }
+    },
+    "accounts": {
+      ".read": true,
+      "$uid": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['k','n','salt','hash']) && newData.child('n').isString() && newData.child('n').val().length <= 14 && newData.child('hash').isString() && newData.child('hash').val().length <= 100"
+      }
+    },
+    "scores": {
+      ".read": true,
+      "$uid": {
+        ".write": true,
+        "$f": {
+          ".validate": "($f == 'k' || $f == 'n' || $f == 'cr') ? (newData.isString() && newData.val().length <= 60) : (newData.isNumber() && ($f == 'ts' || $f == 'cp' || $f.beginsWith('cw_') || newData.val() <= 600000))"
+        }
+      }
+    },
+    "ratings": {
+      ".read": true,
+      "$uid": {
+        ".write": true,
+        ".validate": "newData.child('elo').isNumber() && newData.child('elo').val() >= 100 && newData.child('elo').val() <= 4000"
+      }
+    },
+    "requests": {
+      ".read": true,
+      "$r": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['a','b','st']) && (newData.child('st').val() === 'pending' || newData.child('st').val() === 'friends')"
+      }
+    },
+    "invites": {
+      ".read": true,
+      "$i": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['to','from','code','st'])"
+      }
+    },
+    "crews": {
+      ".read": true,
+      "$c": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['n','tag','col','m'])"
+      }
+    },
+    "shared": {
+      ".read": true,
+      "$s": {
+        ".write": "!data.exists()",
+        ".validate": "newData.hasChildren(['d','park','score']) && newData.child('d').isString() && newData.child('d').val().length < 240000"
+      }
+    },
+    "highlights": {
+      ".read": true,
+      "$h": {
+        ".write": "!data.exists()",
+        ".validate": "newData.hasChildren(['code','score','wk'])"
+      }
+    },
+    "data": {
+      "users": {
+        "$uid": {
+          ".read": true,
+          ".write": true
+        }
+      }
+    }
+  }
+}
