@@ -1,4 +1,4 @@
-// Online play (accounts, friends, sesh invites, multiplayer, ranked, crews, leaderboards, cloud saves).
+https://your-project-default-rtdb.firebaseio.com// Online play (accounts, friends, sesh invites, multiplayer, ranked, crews, leaderboards, cloud saves).
 // 1) Paste your Firebase Realtime Database URL, for example:
 //      window.SKIPARK_DB_URL = "https://my-project-default-rtdb.firebaseio.com";
 // 2) OPTIONAL but recommended: your Firebase Web API key. With it every player gets an anonymous
