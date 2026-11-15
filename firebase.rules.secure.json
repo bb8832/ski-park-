@@ -60,6 +60,27 @@
         ".validate": "newData.hasChildren(['d','park','score']) && newData.child('d').isString() && newData.child('d').val().length < 240000"
       }
     },
+    "parks": {
+      ".read": "auth != null",
+      "$p": {
+        ".write": "auth != null && (data.exists() ? data.child('o').val() === auth.uid : newData.child('o').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['t','a','k','o','th','c','ts']) && newData.child('o').val() === auth.uid && newData.child('t').isString() && newData.child('t').val().length <= 32 && newData.child('c').isString() && newData.child('c').val().length <= 600 && (!newData.child('d').exists() || (newData.child('d').isString() && newData.child('d').val().length <= 200))"
+      }
+    },
+    "parkvotes": {
+      ".read": "auth != null",
+      "$v": {
+        ".write": "auth != null && (data.exists() ? data.child('o').val() === auth.uid : newData.child('o').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['p','k','o','v']) && newData.child('o').val() === auth.uid && newData.child('v').isNumber() && newData.child('v').val() >= 1 && newData.child('v').val() <= 5"
+      }
+    },
+    "parkscores": {
+      ".read": "auth != null",
+      "$s": {
+        ".write": "auth != null && (data.exists() ? data.child('o').val() === auth.uid : newData.child('o').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['p','k','o','s']) && newData.child('o').val() === auth.uid && newData.child('s').isNumber() && newData.child('s').val() > 0 && newData.child('s').val() <= 600000"
+      }
+    },
     "highlights": {
       ".read": "auth != null",
       "$h": {
